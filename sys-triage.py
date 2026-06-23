@@ -1,4 +1,8 @@
 print("mau")
+
+cpu_info = None
+memory_info = None
+
 with open("/proc/cpuinfo", "r") as cpu_file:
     for line in cpu_file:
         if line.startswith("model name"):
@@ -6,7 +10,8 @@ with open("/proc/cpuinfo", "r") as cpu_file:
             line_split = line.split(":")
 
             # print the second part (index 1) after stripping leading and trailing whitespace
-            print(line_split[1].strip())
+            # print(line_split[1].strip())
+            cpu_info = line_split[1].strip()
             break
 
 with open("/proc/meminfo", "r") as mem_file:
@@ -23,6 +28,10 @@ with open("/proc/meminfo", "r") as mem_file:
 
             # 4. Convert kb_string to an integer --> convert it to gigabytes by dividing by 1,000,000 (or 1024*1024 for mebibytes)
             gb_value = int(kb_string) / 1024**2
-            print(f"Memory in GB: {gb_value:.2f} GB")
+            # print(f"Memory in GB: {gb_value:.2f} GB")
+            memory_info = f"{gb_value:.2f} GB"
 
             break
+
+print(f"CPU: {cpu_info}")
+print(f"Memory: {memory_info}")
